@@ -1,0 +1,47 @@
+[
+    {
+        "id": 1,
+        "name": "Shield Bearer",
+        "cost": 2,
+        "power": 3,
+        "abilities": [
+            "BlockNextAttack"
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Swift Thief",
+        "cost": 1,
+        "power": 1,
+        "abilities": [
+            "StealPoints"
+        ]
+    },
+    {
+        "id": 3,
+        "name": "Battle Cry",
+        "cost": 3,
+        "power": 2,
+        "abilities": [
+            "GainPoints"
+        ]
+    },
+    {
+        "id": 4,
+        "name": "Twin Strike",
+        "cost": 2,
+        "power": 2,
+        "abilities": [
+            "DoublePower"
+        ]
+    },
+    {
+        "id": 5,
+        "name": "Sage",
+        "cost": 1,
+        "power": 0,
+        "abilities": [
+            "DrawExtraCard"
+        ]
+    }
+]
