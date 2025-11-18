@@ -35,13 +35,11 @@ public class HandUIController : MonoBehaviour
             return;
         }
 
-        // Clear previous cards
         foreach (Transform t in cardArea)
             Destroy(t.gameObject);
 
         cards.Clear();
 
-        // Add new cards
         foreach (int cardId in localPlayer.hand)
         {
             var data = GameManager.Instance.cardDatabase.GetById(cardId);

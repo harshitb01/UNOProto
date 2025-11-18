@@ -65,7 +65,8 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
     public void CreateRoom()
     {
         generatedCode = RoomCodeGenerator.Generate();
-        roomCodeText.text = "Room Code: " + generatedCode;
+        statusText.text = "Creating room...";
+        roomCodeText.text = string.Empty;
         CreateRoomWithCode(generatedCode);
     }
 
@@ -85,6 +86,9 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.LogError("Create room failed: " + message);
+        statusText.text = "Failed to create room: " + message;
+        generatedCode = null;
+        roomCodeText.text = string.Empty;
     }
 
     public override void OnJoinRoomFailed(short returnCode, string message)
@@ -94,13 +98,16 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
 
     public override void OnCreatedRoom()
     {
+        if (!string.IsNullOrEmpty(generatedCode))
+        {
+            roomCodeText.text = "Room Code: " + generatedCode;
+        }
         statusText.text = "Created room. Waiting for opponent...";
     }
 
     public override void OnJoinedRoom()
     {
         Debug.Log("Joined room. Players: " + PhotonNetwork.CurrentRoom.PlayerCount);
-        // load game scene when 2 players present
         if (PhotonNetwork.CurrentRoom.PlayerCount == 2)
         {
             StartCoroutine(LoadGameScene());
@@ -109,7 +116,6 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
         {
             statusText.text = "Waiting for 2nd player...";
         }
-        // StartCoroutine(LoadGameScene());
     }
 
     public override void OnPlayerEnteredRoom(Player newPlayer)
@@ -122,15 +128,13 @@ public class PhotonNetworkManager : MonoBehaviourPunCallbacks
 
     IEnumerator LoadGameScene()
     {
-        yield return null; // let UI update
-        PhotonNetwork.LoadLevel("Game"); // requires Photon PUN scene sync if enabled
+        yield return null;
+        PhotonNetwork.LoadLevel("Game");
     }
 
-    // Reconnect handling: attempt to ReconnectAndRejoin if disconnected
     public override void OnDisconnected(DisconnectCause cause)
     {
         Debug.LogWarning("Disconnected: " + cause);
-        // Try to reconnect automatically
         StartCoroutine(AttemptReconnect());
     }
 
